@@ -13,6 +13,18 @@ def ping_pong():
         'message': 'pong!',
     })
 
+
+@users_blueprint.route('/users', methods=['GET'])
+def get_all_users():
+    """Get All users"""
+    response_object = {
+        'status': 'success',
+        'data': {
+            'users': [user.to_json() for user in User.query.all()]
+        }
+    }
+    return jsonify(response_object), 200
+
 @users_blueprint.route('/users/<user_id>', methods=['GET'])
 def get_single_user(user_id):
     """Get single user details"""
