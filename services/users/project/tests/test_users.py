@@ -1,19 +1,35 @@
 import json
 import unittest
 
+from project import db
 from project.tests.base import BaseTestCase
+from project.api.models import User
 
 
 class TestUserService(BaseTestCase):
   """Tests for the UserService."""
 
-  def test_users(self):
+  def test_base_route(self):
     """Ensure the /ping route behaves correctly."""
     response = self.client.get('/users/ping')
     data = json.loads(response.data.decode())
     self.assertEqual(response.status_code, 200)
     self.assertIn('pong!', data['message'])
     self.assertIn('success', data['status'])
+    
+
+  def test_single_user_get(self):
+      """Ensure get single user behaves correctly."""
+      user = User(username='michael', email='michael@mherman.org')
+      db.session.add(user)
+      db.session.commit()
+      with self.client:
+          response = self.client.get(f'/users/{user.id}')
+          data = json.loads(response.data.decode())
+          self.assertEqual(response.status_code, 200)
+          self.assertIn('michael', data['data']['username'])
+          self.assertIn('michael@mherman.org', data['data']['email'])
+          self.assertIn('success', data['status'])
   
 
   def test_add_user(self):
