@@ -22,6 +22,7 @@ def get_single_user(user_id):
     }
     try:
         user = User.query.filter_by(id=int(user_id)).first()
+        if not user:
             return jsonify(response_object), 404
         else:
             response_object = {
