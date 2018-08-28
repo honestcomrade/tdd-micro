@@ -11,9 +11,15 @@ def add_user(username, email):
     db.session.commit()
     return user
 
-
 class TestUserService(BaseTestCase):
   """Tests for the UserService."""
+
+  def test_main_no_users(self):
+    """Ensure the main route behaves correctly when no users exist in DB"""
+    response = self.client.get('/')
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'All Users', response.data)
+    self.assertIn(b'<p>No users found...</p>', response.data)
 
   def test_base_route(self):
     """Ensure the /ping route behaves correctly."""
