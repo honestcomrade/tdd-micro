@@ -2,6 +2,16 @@ version: '3.6'
 
 services:
 
+  nginx:
+  build:
+    context: ./services/nginx
+    dockerfile: Dockerfile-dev
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    - users
+
   users:
     build:
       context: ./services/users
