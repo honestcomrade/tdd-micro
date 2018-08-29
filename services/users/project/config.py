@@ -9,7 +9,8 @@ class BaseConfig:
     SECRET_KEY = 'sshhhh'
 
 
-# Pass the baseConfig object and extend it. in this case we add the SQLALCHEMY_DATABSE_URI key
+# Pass the baseConfig object and extend it. in this case
+# we add the SQLALCHEMY_DATABSE_URI key
 # and assign it to the value that the environment variable knows about
 # which itself comes from the docker-compose file
 class DevelopmentConfig(BaseConfig):

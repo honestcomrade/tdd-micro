@@ -2,12 +2,16 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy() # the database is init'ed by SQL alchemy so we have tons of helper methods
+
+# the database is init'ed by SQL alchemy
+# so we have tons of helper methods
+db = SQLAlchemy()
+
 
 # Factory method of app
 def create_app(script_info=None):
 
-    #instantiate the app
+    # instantiate the app
     app = Flask(__name__)
 
     # set up config from env var object
