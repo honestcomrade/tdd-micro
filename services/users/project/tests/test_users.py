@@ -21,6 +21,31 @@ class TestUserService(BaseTestCase):
     self.assertIn(b'All Users', response.data)
     self.assertIn(b'<p>No users found...</p>', response.data)
 
+  def test_main_with_users(self):
+    """Ensure the main route behaves correctly when users are in the DB"""
+    add_user('michael', 'michael@mherman.org')
+    add_user('joe', 'joe@test.com')
+    with self.client:
+      response = self.client.get('/')
+      self.assertEqual(response.status_code, 200)
+      self.assertIn(b'All Users', response.data)
+      self.assertNotIn(b'<p>No users found...</p>', response.data)
+      self.assertIn(b'michael', response.data)
+      self.assertIn(b'joe', response.data)
+
+  def test_main_add_user(self):
+    """Ensure a new user can be added to the database."""
+    with self.client:
+      response = self.client.post(
+        '/',
+        data=dict(username='michael', email='michael@mherman.org'),
+        follow_redirects=True
+      )
+      self.assertEqual(response.status_code, 200)
+      self.assertIn(b'All Users', response.data)
+      self.assertNotIn(b'<p>No users!</p>', response.data)
+      self.assertIn(b'michael', response.data)
+
   def test_base_route(self):
     """Ensure the /ping route behaves correctly."""
     response = self.client.get('/users/ping')
