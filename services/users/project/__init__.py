@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_cors import CORS
 
 # the database is init'ed by SQL alchemy
 # so we have tons of helper methods
@@ -14,6 +15,8 @@ def create_app(script_info=None):
 
     # instantiate the app
     app = Flask(__name__)
+
+    CORS(app)
 
     # set up config from env var object
     app_settings = os.getenv('APP_SETTINGS')
