@@ -10,11 +10,11 @@ class App extends Component {
     super();
     this.state = {
       users: [],
-    }
-  }
-  addUser(event) {
-    event.preventDefault();
-    console.log('sanity check!');
+      username: '',
+      email: '',
+    };
+    this.addUser = this.addUser.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   };
   componentDidMount() {
     this.getUsers();
@@ -29,6 +29,27 @@ class App extends Component {
       return console.log(err);
     });
   };
+  addUser(event) {
+    event.preventDefault();
+    console.log(this.state);
+    const data = { 
+      username: this.state.username,
+      email: this.state.email,
+    };
+    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
+    .then((res) => {
+      this.getUsers();
+      this.setState({ username: '', email: ''})
+    })
+    .catch((err) => {
+      return console.log(err);
+    });
+  };
+  handleChange(event) {
+    const obj = [];
+    obj[event.target.name] = event.target.value;
+    this.setState(obj);
+  };
   render() {
     return (
       <div>
@@ -36,7 +57,12 @@ class App extends Component {
         <br />
         <h1 className="title is-1 is-1">Add a User</h1>
         <hr /><br />
-          <AddUser addUser={this.addUser} />
+          <AddUser
+            username={this.state.username}
+            email={this.state.email}
+            addUser={this.addUser} 
+            handleChange={this.handleChange}
+          />
         </section>
         <section className="section">
           <div className="container">

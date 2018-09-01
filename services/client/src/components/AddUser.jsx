@@ -2,7 +2,9 @@ import React from 'react';
 
 const AddUser = (props) => {
   return (
-    <form onSubmit={(event) => props.addUser(event)}>
+    <form 
+      onSubmit={(event) => props.addUser(event)}
+    >
       <div className="field">
         <input 
           name="username"
@@ -10,6 +12,8 @@ const AddUser = (props) => {
           type="text"
           placeholder="Username"
           required
+          value={props.username}
+          onChange={props.handleChange}
         />
       </div>
       <div className="field">
@@ -19,6 +23,8 @@ const AddUser = (props) => {
           type="email"
           placeholder="Email"
           required
+          value={props.email}
+          onChange={props.handleChange}
         />
       </div>
       <input 
