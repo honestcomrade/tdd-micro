@@ -12,9 +12,13 @@ class App extends Component {
       users: [],
     }
   }
+  addUser(event) {
+    event.preventDefault();
+    console.log('sanity check!');
+  };
   componentDidMount() {
     this.getUsers();
-  }
+  };
   getUsers() {
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
     .then((res) => {
@@ -24,7 +28,7 @@ class App extends Component {
     .catch((err) => {
       return console.log(err);
     });
-  }
+  };
   render() {
     return (
       <div>
@@ -32,7 +36,7 @@ class App extends Component {
         <br />
         <h1 className="title is-1 is-1">Add a User</h1>
         <hr /><br />
-          <AddUser />
+          <AddUser addUser={this.addUser} />
         </section>
         <section className="section">
           <div className="container">
@@ -50,7 +54,7 @@ class App extends Component {
         </section>
       </div>
     );
-  }
+  };
 };
 
 ReactDOM.render(
